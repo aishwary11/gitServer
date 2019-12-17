@@ -1,0 +1,41 @@
+var createError = require('http-errors');
+var express = require('express');
+var path = require('path');
+var cookieParser = require('cookie-parser');
+var compression = require('compression')
+var mongoose = require('mongoose');
+const app = express();
+var cors = require('cors');
+var morgan = require('morgan');
+app.use(cors());
+app.use(compression());
+const bodyParser = require('body-Parser');
+app.use(bodyParser.urlencoded({
+  extended: false
+}))
+app.use(cookieParser());
+app.use(bodyParser.json())
+app.listen(5000, (req, res) => {
+  console.log('Listening on port 5000!');
+});
+
+app.get('/', (req, res) => {
+  console.log("Hello");
+  res.send("Hello");
+})
+
+var userRouts = require('./dbRoots/userRoots');
+app.use('/user', userRouts);
+
+
+
+if (app.get('env') == 'development') {
+  console.log("Development Env...")
+  mongoose.connect("mongodb://localhost:27017/CrudDB", {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+  }, (err) => {
+    if (err) console.log("Error connecting mongodb....")
+    else console.log("Connected to Mongodb")
+  })
+}
