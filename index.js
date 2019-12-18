@@ -32,7 +32,7 @@ app.use('/user', userRouts);
 if (app.get('env') == 'development') {
   console.log("Development Env...")
   mongoose.connect("mongodb://172.16.1.60:27017/CrudDB", {
-  // mongoose.connect("mongodb://localhost:27017/CrudDB", {
+    // mongoose.connect("mongodb://localhost:27017/CrudDB", {
     useNewUrlParser: true,
     useUnifiedTopology: true
   }, (err) => {
