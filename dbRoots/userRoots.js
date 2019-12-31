@@ -5,10 +5,7 @@ var serviceEmail = require('../services/email');
 var serviceSMS = require('../services/sms');
 var async = require('async');
 var multer = require('multer');
-// const {
-//   check,
-//   validationResult
-// } = require('express-validator');
+
 
 
 
@@ -80,8 +77,6 @@ router.post("/edit", (req, res) => {
 
 router.post("/upload", (req, res) => {
   excelData = req.body;
-  var error;
-  var arrayUpload;
   async.eachSeries(excelData, (data, callback) => {
     const objUpload = {
       name: data.name,
