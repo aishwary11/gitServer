@@ -1,8 +1,15 @@
-const express = require("express");
+const express = require('express');
 var router = express.Router();
 var userSchema = require("../dbModels/user");
 var serviceEmail = require('../services/email');
 var serviceSMS = require('../services/sms');
+var async = require('async');
+var multer = require('multer');
+// const {
+//   check,
+//   validationResult
+// } = require('express-validator');
+
 
 
 router.post("/add", (req, res) => {
@@ -68,6 +75,58 @@ router.post("/edit", (req, res) => {
       }
     }
   );
+});
+
+
+router.post("/upload", (req, res) => {
+  excelData = req.body;
+  var error;
+  var arrayUpload;
+  async.eachSeries(excelData, (data, callback) => {
+    const objUpload = {
+      name: data.name,
+      email: data.email,
+      phone: data.phone
+    }; {
+      for (var i = 0; i < req.body.excelData.length; i++) {
+        if (req.body.excelData[i].hasOwnProperty('name') == false || typeof req.body.excelData[i].name === !'string') {
+          console.log("Invalid Name");
+          error = "something wrong in name";
+        } else if (req.body.excelData[i].hasOwnProperty('email') == false || typeof req.body.excelData[i].email === !'string') {
+          console.log("Invalid Email");
+          error = "something wrong in email";
+        } else if (req.body.excelData[i].hasOwnProperty('phone') == false || typeof req.body.excelData[i].phone === !'string') {
+          console.log("Invalid Phone");
+          error = "something wrong in phone"
+        }
+        const userUploadData = new userSchema(objUpload);
+        userUploadData.save((err, result) => {
+          if (err) {
+            console.log('not saved');
+          } else {
+            console.log('saved : ', result);
+          }
+        })
+        console.log("done")
+      }
+
+
+      // if (typeof data.name === 'string' && data.name != ' ' && typeof data.email === 'string' && data.email != ' ' && typeof data.phone === 'string' && data.phone != ' ') {
+      //   const userUploadData = new userSchema(objUpload);
+      //   userUploadData.save((err, result) => {
+      //     if (err) {
+      //       console.log('not saved');
+      //     } else {
+      //       console.log('saved : ', result);
+      //     }
+      //   })
+      //   console.log("done")
+      // } else {
+      //   console.log('error')
+      // }
+      callback();
+    }
+  });
 });
 
 module.exports = router;
