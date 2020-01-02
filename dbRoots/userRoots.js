@@ -4,8 +4,6 @@ var userSchema = require("../dbModels/user");
 var serviceEmail = require('../services/email');
 var serviceSMS = require('../services/sms');
 var async = require('async');
-var multer = require('multer');
-
 
 
 
@@ -112,7 +110,7 @@ router.post("/upload", (req, res) => {
           if (err) {
             console.log('not saved');
           } else {
-            console.log('saved : ', result);
+              console.log('saved : ', result);
           }
         })
         console.log("done")
