@@ -4,9 +4,7 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var compression = require('compression')
 var mongoose = require('mongoose');
-var expressValidator = require('express-validator');
-var expressSession = require('express-session');
-var morgan = require('morgan');
+
 
 const app = express();
 var cors = require('cors');
@@ -32,8 +30,8 @@ app.get('/', (req, res) => {
 
 var userRouts = require('./dbRoots/userRoots');
 app.use('/user', userRouts);
-var loginRouts = require('./loginRoots/loginRoots');
-app.use('/login', loginRouts);
+// var loginRouts = require('./loginRoots/loginRoots');
+// app.use('/login', loginRouts);
 
 if (app.get('env') == 'development') {
   mongoose.connect("mongodb://172.16.1.60:27017/CrudDB", {

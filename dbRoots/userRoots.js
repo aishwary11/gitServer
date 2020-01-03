@@ -81,39 +81,17 @@ router.post("/upload", (req, res) => {
       email: data.email,
       phone: data.phone
     }; {
-      // for (var i = 0; i < req.body.excelData.length; i++) {
-      //   if (req.body.excelData[i].hasOwnProperty('name') == false || typeof req.body.excelData[i].name === !'string') {
-      //     console.log("Invalid Name");
-      //     error = "something wrong in name";
-      //   } else if (req.body.excelData[i].hasOwnProperty('email') == false || typeof req.body.excelData[i].email === !'string') {
-      //     console.log("Invalid Email");
-      //     error = "something wrong in email";
-      //   } else if (req.body.excelData[i].hasOwnProperty('phone') == false || typeof req.body.excelData[i].phone === !'string') {
-      //     console.log("Invalid Phone");
-      //     error = "something wrong in phone"
-      //   }
-      //   const userUploadData = new userSchema(objUpload);
-      //   userUploadData.save((err, result) => {
-      //     if (err) {
-      //       console.log('not saved');
-      //     } else {
-      //       console.log('saved : ', result);
-      //     }
-      //   })
-      //   console.log("done")
-      // }
-
-
       if (typeof data.name === 'string' && data.name != ' ' && typeof data.email === 'string' && data.email != ' ' && typeof data.phone === 'string' && data.phone != ' ') {
         const userUploadData = new userSchema(objUpload);
         userUploadData.save((err, result) => {
           if (err) {
             console.log('not saved');
           } else {
-              console.log('saved : ', result);
+            console.log('saved : ', result);
           }
-        })
-        console.log("done")
+        });
+        console.log("done"),
+          serviceSMS.sendSMS(userUploadData.name, userUploadData.email, userUploadData.phone);
       } else {
         console.log('error')
       }
