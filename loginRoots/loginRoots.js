@@ -1,7 +1,25 @@
 const express = require('express');
 var router = express.Router();
 var loginSchema = require('../loginModels/login');
-
-router.post("/", (req, res) => {
-console.log(req.body);
+const jwt = require('jsonwebtoken');
+const dotenv = require('dotenv');
+dotenv.config();
+const Joi = require('@hapi/joi');
+const logValid = Joi.object({
+  name: Joi.string().min(3).required(),
+  password: Joi.string().min(3).required()
 })
+
+
+router.post("/", async (req, res) => {
+  const validation = logValid.validate(req.body);
+  res.send(validation);
+  // res.send('aish is here');
+  // const token = jwt.sign({
+  //   _id: loginSchema._id
+  // }, process.env.secret_token);
+  // res.header('auth-token', token).send(token);
+  // res.send('login');
+})
+
+module.exports = router;

@@ -20,7 +20,7 @@ app.use(cookieParser());
 
 app.use(bodyParser.json());
 app.listen(5000, (req, res) => {
-  console.log('Listening on port 5000!');
+  console.log('Server on port 5000!');
 });
 
 app.get('/', (req, res) => {
@@ -30,16 +30,16 @@ app.get('/', (req, res) => {
 
 var userRouts = require('./dbRoots/userRoots');
 app.use('/user', userRouts);
-// var loginRouts = require('./loginRoots/loginRoots');
-// app.use('/login', loginRouts);
+var loginRouts = require('./loginRoots/loginRoots');
+app.use('/login', loginRouts);
 
-if (app.get('env') == 'development') {
-  mongoose.connect("mongodb://172.16.1.60:27017/CrudDB", {
-    // mongoose.connect("mongodb://localhost:27017/CrudDB", {
+// if (app.get('env') == 'development') {
+  // mongoose.connect("mongodb://172.16.1.60:27017/CrudDB", {
+  mongoose.connect("mongodb://localhost:27017/CrudDB", {
     useNewUrlParser: true,
     useUnifiedTopology: true
   }, (err) => {
     if (err) console.log("Error connecting mongodb....")
-    else console.log("Connected to Mongodb")
+    else console.log("Bhai server chalu ho gaya hai")
   })
-}
+// }
