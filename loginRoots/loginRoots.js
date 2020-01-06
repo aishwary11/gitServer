@@ -6,8 +6,8 @@ const dotenv = require('dotenv');
 dotenv.config();
 const Joi = require('@hapi/joi');
 const logValid = Joi.object({
-  name: Joi.string().min(3).required(),
-  password: Joi.string().min(3).required()
+  name: Joi.string().min(3).required().pattern(new RegExp('^[a-zA-Z]{3,10}$')),
+  password: Joi.string().min(3).required().pattern(new RegExp('^[a-zA-Z]{3,10}$'))
 })
 
 
