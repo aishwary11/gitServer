@@ -1,6 +1,5 @@
 var mongoose = require('mongoose');
 let userSchema = mongoose.Schema({
-
   name: {
     type: String,
     default: ""

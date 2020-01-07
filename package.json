@@ -10,9 +10,9 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@hapi/joi": "^17.0.0",
     "async": "^3.1.0",
     "asyncawait": "^3.0.0",
+    "bcrypt": "^3.0.6",
     "body-parser": "^1.17.0",
     "compression": "^1.7.4",
     "cookie-parser": "^1.4.4",

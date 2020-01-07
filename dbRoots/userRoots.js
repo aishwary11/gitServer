@@ -81,7 +81,7 @@ router.post("/upload", (req, res) => {
       email: data.email,
       phone: data.phone
     }; {
-      if (typeof data.name === 'string' && data.name != ' ' && typeof data.email === 'string' && data.email != ' ' && typeof data.phone === 'string' && data.phone != ' ' && data.phone.length == 14) {
+      if (typeof data.name === 'string' && data.name != ' ' && typeof data.email === 'string' && data.email != ' ' && typeof data.phone === 'string' && data.phone != ' ' && data.phone.length == 10) {
         const userUploadData = new userSchema(objUpload);
         userUploadData.save((err, result) => {
           if (err) {

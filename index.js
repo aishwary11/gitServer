@@ -8,7 +8,9 @@ var mongoose = require('mongoose');
 
 const app = express();
 var cors = require('cors');
-app.use(cors());
+app.use(cors({
+  credentials: true
+}));
 app.use(compression());
 
 const bodyParser = require('body-Parser');
@@ -30,16 +32,16 @@ app.get('/', (req, res) => {
 
 var userRouts = require('./dbRoots/userRoots');
 app.use('/user', userRouts);
-var loginRouts = require('./loginRoots/loginRoots');
-app.use('/login', loginRouts);
+// var loginRouts = require('./loginRoots/loginRoots');
+// app.use('/login', loginRouts);
 
 // if (app.get('env') == 'development') {
-  // mongoose.connect("mongodb://172.16.1.60:27017/CrudDB", {
-  mongoose.connect("mongodb://localhost:27017/CrudDB", {
-    useNewUrlParser: true,
-    useUnifiedTopology: true
-  }, (err) => {
-    if (err) console.log("Error connecting mongodb....")
-    else console.log("Bhai server chalu ho gaya hai")
-  })
+// mongoose.connect("mongodb://172.16.1.60:27017/CrudDB", {
+mongoose.connect("mongodb://localhost:27017/CrudDB", {
+  useNewUrlParser: true,
+  useUnifiedTopology: true
+}, (err) => {
+  if (err) console.log("Error connecting mongodb....")
+  else console.log("Bhai server chalu ho gaya hai")
+})
 // }
