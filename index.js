@@ -32,8 +32,8 @@ app.get('/', (req, res) => {
 
 var userRouts = require('./dbRoots/userRoots');
 app.use('/user', userRouts);
-// var loginRouts = require('./loginRoots/loginRoots');
-// app.use('/login', loginRouts);
+var loginRouts = require('./loginRoots/loginRoots');
+app.use('/login', loginRouts);
 
 // if (app.get('env') == 'development') {
 // mongoose.connect("mongodb://172.16.1.60:27017/CrudDB", {

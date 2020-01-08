@@ -10,13 +10,35 @@ const key = process.env.secret_token;
 
 
 router.post("/", (req, res) => {
-
+  let promise = loginSchema.findOne({
+    name: req.body.name
+  }).exec()
+  promise.then(function (doc) {
+    if (doc) {
+      if (doc.isValid(req.body.pass)) {
+        let token = jwt.sign({
+          name: doc.name
+        }, 'secret', {
+          expiresIn: '1h'
+        })
+        return res.status(200).json(token);
+      } else {
+        return res.status(501).json({
+          message: "Invalid Credentials"
+        })
+      }
+    } else {
+      return res.status(501).json({
+        message: 'User name is not available'
+      })
+    }
+  })
+  promise.catch(function (err) {
+    return res.status(501).json({
+      message: 'some internal error'
+    });
+  })
 });
-// async function addToDB(req, res) {
-//   var user = new User({
-//     name: req.body.name,
-//     password: login.hashPassword(req.body.password)
-//   })
-// }
+
 
 module.exports = router;

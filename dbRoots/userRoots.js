@@ -25,7 +25,7 @@ router.post("/add", (req, res) => {
 });
 
 router.get("/disp", (req, res) => {
-  userSchema.find({}, function (err, response) {
+  userSchema.find(function (err, response) {
     if (err) {
       console.log(err);
     } else {
