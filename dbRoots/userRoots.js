@@ -4,8 +4,10 @@ var userSchema = require("../dbModels/user");
 var serviceEmail = require('../services/email');
 var serviceSMS = require('../services/sms');
 var async = require('async');
-
-
+const multer = require('multer');
+const imgUpload = multer({
+  dest: './uploads/images'
+})
 
 router.post("/add", (req, res) => {
   console.log(req.body);
@@ -51,7 +53,6 @@ router.post("/delete", (req, res) => {
 });
 
 router.post("/edit", (req, res) => {
-  console.log(req.body);
   userSchema.updateOne({
       _id: req.body.id
     }, {
@@ -98,6 +99,25 @@ router.post("/upload", (req, res) => {
       callback();
     }
   });
+});
+router.post('/images', imgUpload.single('photo'), (req, res) => {
+  if (req.file) {
+    res.json(req.file);
+    console.log('ho gaya upload');
+  } else throw 'error';
+  // console.log(req.file);
+  // const userImg = new User({
+  //   _id: new mongoose.Types.ObjectId(),
+  //   name: req.body.name,
+  //   phone: req.body.phone
+  // });
+  // userImg.save().then(result => {
+  //   console.log(result);
+  //   res.status(201).json({
+  //     message: "Created user successful",
+  //     userCreated: {}
+  //   })
+  // })
 });
 
 module.exports = router;
