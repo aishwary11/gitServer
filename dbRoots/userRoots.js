@@ -7,7 +7,11 @@ var async = require('async');
 const multer = require('multer');
 const imgUpload = multer({
   dest: './uploads/images'
-})
+});
+const vidUpload = multer({
+  dest: './uploads/video'
+});
+
 
 router.post("/add", (req, res) => {
   console.log(req.body);
@@ -26,6 +30,7 @@ router.post("/add", (req, res) => {
   });
 });
 
+
 router.get("/disp", (req, res) => {
   userSchema.find(function (err, response) {
     if (err) {
@@ -36,6 +41,7 @@ router.get("/disp", (req, res) => {
     }
   });
 });
+
 
 router.post("/delete", (req, res) => {
   userSchema.deleteOne({
@@ -51,6 +57,7 @@ router.post("/delete", (req, res) => {
     }
   );
 });
+
 
 router.post("/edit", (req, res) => {
   userSchema.updateOne({
@@ -100,24 +107,24 @@ router.post("/upload", (req, res) => {
     }
   });
 });
+
+
 router.post('/images', imgUpload.single('photo'), (req, res) => {
-  if (req.file) {
-    res.json(req.file);
+  console.log(req.file);
+  if (req.file.filename) {
+    res.status(200).send(req.file.filename);
     console.log('ho gaya upload');
-  } else throw 'error';
-  // console.log(req.file);
-  // const userImg = new User({
-  //   _id: new mongoose.Types.ObjectId(),
-  //   name: req.body.name,
-  //   phone: req.body.phone
-  // });
-  // userImg.save().then(result => {
-  //   console.log(result);
-  //   res.status(201).json({
-  //     message: "Created user successful",
-  //     userCreated: {}
-  //   })
-  // })
+  } else console.log('nahi gaya img')
 });
+
+
+router.post('/video', vidUpload.single('video'), (req, res) => {
+  console.log(req.file);
+  if (req.file.filename) {
+    res.status(200).send(req.file.filename);
+    console.log('ho gaya upload');
+  } else console.log('nahi gaya video')
+});
+
 
 module.exports = router;
