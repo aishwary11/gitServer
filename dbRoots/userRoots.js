@@ -1,16 +1,49 @@
 const express = require('express');
 var router = express.Router();
-var userSchema = require("../dbModels/user");
+var userSchema = require('../dbModels/user');
 var serviceEmail = require('../services/email');
+var imgSchema = require('../dbModels/img');
+var videoSchema = require('../dbModels/video');
 var serviceSMS = require('../services/sms');
 var async = require('async');
 const multer = require('multer');
-const imgUpload = multer({
-  dest: './uploads/images'
+
+var imgStorage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, './uploads/images');
+  },
+  filename: function (req, file, cb) {
+    cb(null, file.originalname);
+  }
 });
-const vidUpload = multer({
-  dest: './uploads/video'
+var imgUpload = multer({
+  storage: imgStorage
 });
+
+module.exports = imgUpload;
+
+var videoStorage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, './uploads/videos');
+  },
+  filename: function (req, file, cb) {
+    cb(null, file.originalname);
+  }
+});
+var vidUpload = multer({
+  storage: videoStorage
+});
+
+module.exports = vidUpload;
+
+
+// const imgUpload = multer({
+//   dest: './uploads/images'
+// });
+
+// const vidUpload = multer({
+//   dest: './uploads/video'
+// });
 
 
 router.post("/add", (req, res) => {
@@ -32,7 +65,7 @@ router.post("/add", (req, res) => {
 
 
 router.get("/disp", (req, res) => {
-  userSchema.find(function (err, response) {
+  userSchema.find((err, response) => {
     if (err) {
       console.log(err);
     } else {
@@ -111,20 +144,61 @@ router.post("/upload", (req, res) => {
 
 router.post('/images', imgUpload.single('photo'), (req, res) => {
   console.log(req.file);
-  if (req.file.filename) {
-    res.status(200).send(req.file.filename);
-    console.log('ho gaya upload');
-  } else console.log('nahi gaya img')
+  let imgData = new imgSchema(req.file);
+  imgData.save((err, result) => {
+    if (err) {
+      console.log('error in saving images');
+    } else {
+      if (req.file.originalname) {
+        res.status(200).send(req.file.originalname);
+        console.log('Image Saved');
+      } else {
+        console.log('nahi gaya img');
+      }
+    }
+  });
+});
+
+
+router.get('/imgDisp', (req, res) => {
+  imgSchema.find((err, response) => {
+    if (err) {
+      console.log(err);
+    } else {
+      console.log(response);
+      res.send(response);
+    }
+  });
 });
 
 
 router.post('/video', vidUpload.single('video'), (req, res) => {
   console.log(req.file);
-  if (req.file.filename) {
-    res.status(200).send(req.file.filename);
-    console.log('ho gaya upload');
-  } else console.log('nahi gaya video')
+  let videoData = new videoSchema(req.file);
+  videoData.save((err, result) => {
+    if (err) {
+      console.log('error in saving video');
+    } else {
+      if (req.file.originalname) {
+        res.status(200).send(req.file.originalname);
+        console.log('video uploaded');
+      } else {
+        console.log('nahi gaya video');
+      }
+    }
+  })
 });
 
+
+router.get('/videoDisp', (req, res) => {
+  videoSchema.find((err, response) => {
+    if (err) {
+      console.log(err);
+    } else {
+      console.log(response);
+      res.send(response);
+    }
+  });
+});
 
 module.exports = router;
