@@ -32,13 +32,11 @@ app.get('/', (req, res) => {
 
 var userRouts = require('./dbRoots/userRoots');
 app.use('/user', userRouts);
-// var loginRouts = require('./loginRoots/loginRoots');
-// app.use('/login', loginRouts);
+var loginRouts = require('./dbRoots/loginRoots');
+app.use('/login', loginRouts);
 
 
 
-// if (app.get('env') == 'development') {
-// mongoose.connect("mongodb://172.16.1.60:27017/CrudDB", {
 mongoose.connect("mongodb://localhost:27017/CrudDB", {
   useNewUrlParser: true,
   useUnifiedTopology: true
@@ -46,4 +44,3 @@ mongoose.connect("mongodb://localhost:27017/CrudDB", {
   if (err) console.log("Error connecting mongodb....")
   else console.log("Bhai server chalu ho gaya hai")
 })
-// }

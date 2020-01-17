@@ -2,12 +2,11 @@ const express = require('express');
 var router = express.Router();
 const dotenv = require('dotenv');
 dotenv.config();
-var loginSchema = require('../loginModels/login');
+var loginSchema = require('../dbModels/login');
 const jwt = require('jsonwebtoken');
-const key = process.env.secret_token;
 
-
-
+var regUser = /^([a-zA-Z]{3,10})([0-9]{2})$/;
+var regPass = /^([a-z]{3,10})$/;
 
 router.post("/", (req, res) => {
   let promise = loginSchema.findOne({
