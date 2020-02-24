@@ -19,7 +19,6 @@ var imgStorage = multer.diskStorage({
 var imgUpload = multer({
   storage: imgStorage
 });
-
 module.exports = imgUpload;
 
 var videoStorage = multer.diskStorage({
@@ -33,18 +32,7 @@ var videoStorage = multer.diskStorage({
 var vidUpload = multer({
   storage: videoStorage
 });
-
 module.exports = vidUpload;
-
-
-// const imgUpload = multer({
-//   dest: './uploads/images'
-// });
-
-// const vidUpload = multer({
-//   dest: './uploads/video'
-// });
-
 
 router.post("/add", (req, res) => {
   console.log(req.body);
@@ -78,8 +66,8 @@ router.get("/disp", (req, res) => {
 
 router.post("/delete", (req, res) => {
   userSchema.deleteOne({
-      _id: req.body.id
-    },
+    _id: req.body.id
+  },
     function (err, resp) {
       if (err) {
         console.log(err);
@@ -94,14 +82,14 @@ router.post("/delete", (req, res) => {
 
 router.post("/edit", (req, res) => {
   userSchema.updateOne({
-      _id: req.body.id
-    }, {
-      $set: {
-        name: req.body.name,
-        email: req.body.email,
-        phone: req.body.phone
-      }
-    },
+    _id: req.body.id
+  }, {
+    $set: {
+      name: req.body.name,
+      email: req.body.email,
+      phone: req.body.phone
+    }
+  },
     function (err, resp) {
       if (err) {
         console.log(err);
@@ -115,8 +103,8 @@ router.post("/edit", (req, res) => {
 
 
 router.post("/upload", (req, res) => {
-  excelData = req.body;
-  async.eachSeries(excelData, (data, callback) => {
+  excelData = req.body;                 //excelData is array of data
+  async.eachSeries(excelData, (data, callback) => {                 //data is individual data
     const objUpload = {
       name: data.name,
       email: data.email,
