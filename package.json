@@ -30,7 +30,7 @@
     "nodemailer": "^6.4.1",
     "nodemon": "^2.0.1",
     "unirest": "^0.6.0",
-    "validator": "^12.1.0",
+    "validator": "^13.7.0",
     "way2sms": "^1.0.2"
   }
 }
